@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent (typeof(Rigidbody))] //geçerli objede rigidbody yok ise rigidbody eklenecek.
-//[RequireComponent (typeof(CharacterController))] //geçerli objede Character Controller componenti bulunmuyorsa. Bu component eklenecek.
+//[RequireComponent (typeof(Rigidbody))] //geçerli objede rigidbody yok ise rigidbody eklenecek.
+[RequireComponent (typeof(CharacterController))] //geçerli objede Character Controller componenti bulunmuyorsa. Bu component eklenecek.
 public class PlayerController2 : MonoBehaviour
 {
-    private Rigidbody _rb;
-    //private CharacterController controller;
+    //private Rigidbody _rb;
+    private CharacterController controller;
 
     //speeds:
     [SerializeField] [Tooltip("Karakterin Geçerli Hızı")] private float _playerSpeed = 0;
@@ -18,8 +18,8 @@ public class PlayerController2 : MonoBehaviour
 
     private void Awake()
     {
-        _rb = this.gameObject.GetComponent<Rigidbody>();
-        //controller = this.gameObject.GetComponent<CharacterController>();
+        //_rb = this.gameObject.GetComponent<Rigidbody>();
+        controller = this.gameObject.GetComponent<CharacterController>();
     }
 
     private void FixedUpdate() 
