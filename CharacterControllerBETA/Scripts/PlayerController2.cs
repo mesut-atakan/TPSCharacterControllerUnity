@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent (typeof(Rigidbody))] //geçerli objede rigidbody yok ise rigidbody eklenecek.
-[RequireComponent (typeof(CharacterController))] //geçerli objede Character Controller componenti bulunmuyorsa. Bu component eklenecek.
+[RequireComponent (typeof(Rigidbody))] //geçerli objede rigidbody yok ise rigidbody eklenecek.
+//[RequireComponent (typeof(CharacterController))] //geçerli objede Character Controller componenti bulunmuyorsa. Bu component eklenecek.
 public class PlayerController2 : MonoBehaviour
 {
-    //private Rigidbody _rb;
+    private Rigidbody _rb;
     private CharacterController controller;
 
     //speeds:
@@ -18,7 +18,7 @@ public class PlayerController2 : MonoBehaviour
 
     private void Awake()
     {
-        //_rb = this.gameObject.GetComponent<Rigidbody>();
+        _rb = this.gameObject.GetComponent<Rigidbody>();
         controller = this.gameObject.GetComponent<CharacterController>();
     }
 
@@ -36,8 +36,6 @@ public class PlayerController2 : MonoBehaviour
         float speed_z = _playerSpeed * Input.GetAxisRaw("Vertical");
 
         _rb.velocity = new Vector3(speed_x, 0, speed_z);
-
-        
     }
 }
 
