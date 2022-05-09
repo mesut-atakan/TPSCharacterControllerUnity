@@ -19,13 +19,14 @@ public class PlayerController2 : MonoBehaviour
     
     [Space]
     [Header("Transform")]
-    
     [SerializeField] [Tooltip("Player Rotation Speed")] [Range(0f,1f)] private float turnSmoothTime = 0.1f;
+    [SerializeField] [Tooltip("Camera Transform Information")] private Transform Camera;
 
     private void Awake()
     {
         //_rb = this.gameObject.GetComponent<Rigidbody>();
         controller = this.gameObject.GetComponent<CharacterController>();
+        Camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Transform>();
     }
 
     private void FixedUpdate() 
@@ -35,7 +36,7 @@ public class PlayerController2 : MonoBehaviour
     
     private void CharacterController()
     {
-        _playerSpeed = Input.GetKey(KeyCode.LeftShift) ? 4f : !Input.GetKey(KeyCode.LeftControl) ? 2.5f : 1f ;
+        _playerSpeed = Input.GetKey(KeyCode.LeftShift) ? 8f : !Input.GetKey(KeyCode.LeftControl) ? 5f : 2.5f ;
 
         //character Movement
         float speed_x = _playerSpeed * Input.GetAxisRaw("Horizontal");
@@ -44,30 +45,12 @@ public class PlayerController2 : MonoBehaviour
 
         if(direction.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + Camera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            controller.Move(direction * _playerSpeed * Time.deltaTime);
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            controller.Move(moveDir.normalized * _playerSpeed * Time.deltaTime);
         }
-        
-        //_rb.velocity = new Vector3(speed_x, 0, speed_z);
     }
 }
-
-
-//character Rotation
-       /* if(direction.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
-
-            //controller.Move(direction * _playerSpeed * Time.deltaTime);
-        } */
-
-
-        //JUMP System
-        /*if(Input.GetKeyDown(KeyCode.Space))
-        {
-            _rb.AddForce(Vector3.up * _jumpSpeed, ForceMode.Impulse);
-        }*/
